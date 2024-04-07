@@ -49,7 +49,7 @@ require("lazy").setup({
     config = function()
       vim.g.oh_lucy_evening_trasnparent_brackground = true
       vim.g.oh_lucy_evening_italic_booleans = true
-      vim.cmd.colorscheme = "oh-lucy-evening"
+      vim.cmd [[colorscheme oh-lucy-evening]]
     end
   },
 
@@ -191,4 +191,52 @@ require("lazy").setup({
   --     "nvim-lua/plenary.nvim",
   --   },
   -- },
+  {
+    "nvimdev/guard.nvim",
+    dependencies = {
+      "nvimdev/guard-collection",
+    },
+  },
+
+  {
+    "nvim-lualine/lualine.nvim",
+    requires = { "nvim-tree/nvim-web-devicons", opt = true },
+  },
+
+  {
+    "folke/noice.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",       -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    },
+  },
+
+  {   -- This plugin
+    "Zeioth/compiler.nvim",
+    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+    dependencies = { "stevearc/overseer.nvim" },
+    opts = {},
+  },
+
+  {   -- The task runner we use
+    "stevearc/overseer.nvim",
+    commit = "400e762648b70397d0d315e5acaf0ff3597f2d8b",
+    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+    opts = {
+      task_list = {
+        direction = "bottom",
+        min_height = 25,
+        max_height = 25,
+        default_detail = 1
+      },
+    },
+  },
 })

@@ -16,6 +16,7 @@ lsp.ensure_installed({
   "tsserver",
   "biome",
   "tailwindcss",
+  "clangd",
 })
 
 -- Fix Undefined global 'vim'
