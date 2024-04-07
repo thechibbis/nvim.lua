@@ -5,5 +5,3 @@ vim.keymap.set("n", "<leader>ps", function()
 	tbuiltin.grep_string({ search = vim.fn.input("Grep > ") })
 end)
 vim.keymap.set("n", "<leader>vh", tbuiltin.help_tags, {})
-
-require("telescope").load_extension("flutter")
