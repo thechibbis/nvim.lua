@@ -2,241 +2,197 @@
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  -- {
-  --     "folke/tokyonight.nvim",
-  --     lazy = false,
-  --     priority = 1000,
-  --     opts = {},
-  --     config = function()
-  --         require("tokyonight").setup({
-  --             style = "night",
-  --             light_style = "day",
-  --             transparent = true,
-  --             terminal_colors = true,
-  --         })
-  --         vim.cmd("colorscheme tokyonight")
-  --     end,
-  -- },
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+		config = function()
+			require("rose-pine").setup({
+				variant = "main",
+				styles = {
+					transparency = true,
+				},
+			})
+			vim.cmd("colorscheme rose-pine")
+		end,
+	},
 
-  -- {
-  --   "rose-pine/neovim",
-  --   name = "rose-pine",
-  --   config = function()
-  --     require("rose-pine").setup({
-  --       variant = "main",
-  --       styles = {
-  --         transparency = true
-  --       },
-  --     })
-  --     vim.cmd("colorscheme rose-pine")
-  --   end
-  -- },
+	{
+		"stevearc/oil.nvim",
+		opts = {},
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("oil").setup()
+			vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+		end,
+	},
 
-  {
-    "Yazeed1s/oh-lucy.nvim",
-    config = function()
-      vim.g.oh_lucy_evening_trasnparent_brackground = true
-      vim.g.oh_lucy_evening_italic_booleans = true
-      vim.cmd [[colorscheme oh-lucy-evening]]
-    end
-  },
+	{
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.3",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
 
-  {
-    "stevearc/oil.nvim",
-    opts = {},
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("oil").setup()
-      vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-    end,
-  },
+	{ "nvim-treesitter/nvim-treesitter", name = "treesitter", cmd = "TSUpdate" },
 
-  {
-    "nvim-telescope/telescope.nvim",
-    tag = "0.1.3",
-    dependencies = { "nvim-lua/plenary.nvim" },
-  },
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
 
-  { "nvim-treesitter/nvim-treesitter", name = "treesitter", cmd = "TSUpdate" },
+	{
+		"theprimeagen/harpoon",
+		dependencies = {
+			{ "nvim-lua/plenary.nvim" },
+		},
+	},
 
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-  },
+	{
+		"VonHeikemen/lsp-zero.nvim",
+		branch = "v1.x",
+		dependencies = {
+			-- LSP Support
+			{ "neovim/nvim-lspconfig" },
+			{ "williamboman/mason.nvim" },
+			{ "williamboman/mason-lspconfig.nvim" },
 
-  {
-    "theprimeagen/harpoon",
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-    },
-  },
+			-- Autocompletion
+			{ "hrsh7th/nvim-cmp" },
+			{ "hrsh7th/cmp-buffer" },
+			{ "hrsh7th/cmp-path" },
+			{ "saadparwaiz1/cmp_luasnip" },
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "hrsh7th/cmp-nvim-lua" },
 
-  {
-    "VonHeikemen/lsp-zero.nvim",
-    branch = "v1.x",
-    dependencies = {
-      -- LSP Support
-      { "neovim/nvim-lspconfig" },
-      { "williamboman/mason.nvim" },
-      { "williamboman/mason-lspconfig.nvim" },
+			-- Snippets
+			{ "L3MON4D3/LuaSnip" },
+			{ "rafamadriz/friendly-snippets" },
 
-      -- Autocompletion
-      { "hrsh7th/nvim-cmp" },
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-path" },
-      { "saadparwaiz1/cmp_luasnip" },
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-nvim-lua" },
+			-- Beaulty
+			{ "onsails/lspkind.nvim" },
 
-      -- Snippets
-      { "L3MON4D3/LuaSnip" },
-      { "rafamadriz/friendly-snippets" },
+			-- TailwindCSS
+			{ "luckasRanarison/tailwind-tools.nvim" },
+		},
+	},
 
-      -- Beaulty
-      { "onsails/lspkind.nvim" },
+	{
+		"roobert/tailwindcss-colorizer-cmp.nvim",
+	},
 
-      -- TailwindCSS
-      { "luckasRanarison/tailwind-tools.nvim" }
-    },
-  },
+	{
+		"aserowy/tmux.nvim",
+		config = function()
+			return require("tmux").setup({
+				copy_sync = {
+					redirect_to_clipboard = true,
+				},
+			})
+		end,
+	},
 
-  {
-    "roobert/tailwindcss-colorizer-cmp.nvim",
-  },
+	{
+		"stevearc/conform.nvim",
+		opts = {},
+	},
 
-  -- {
-  --   "NvChad/nvim-colorizer.lua",
-  --   opts = {
-  --     user_default_options = {
-  --       tailwind = true,
-  --     },
-  --   },
-  -- },
+	{
+		"nvim-lualine/lualine.nvim",
+		requires = { "nvim-tree/nvim-web-devicons", opt = true },
+	},
 
-  {
-    "aserowy/tmux.nvim",
-    config = function()
-      return require("tmux").setup({
-        copy_sync = {
-          redirect_to_clipboard = true,
-        },
-      })
-    end,
-  },
+	{
+		"folke/noice.nvim",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+		},
+	},
 
-  {
-    "nvimdev/guard.nvim",
-    dependencies = {
-      "nvimdev/guard-collection",
-    },
-  },
+	{
+		"rcarriga/nvim-notify",
+	},
 
-  {
-    "nvim-lualine/lualine.nvim",
-    requires = { "nvim-tree/nvim-web-devicons", opt = true },
-  },
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+		},
+	},
 
-  {
-    "folke/noice.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-  },
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		opts = {}, -- this is equalent to setup({}) function
+	},
 
-  {
-    "rcarriga/nvim-notify",
-  },
+	{
+		"nvimdev/guard.nvim",
+		dependencies = {
+			"nvimdev/guard-collection",
+		},
+	},
 
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-    },
-  },
+	{
+		"nvim-lualine/lualine.nvim",
+		requires = { "nvim-tree/nvim-web-devicons", opt = true },
+	},
 
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    opts = {}, -- this is equalent to setup({}) function
-  },
+	{
+		"folke/noice.nvim",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+		},
+	},
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+		},
+	},
 
-  -- {
-  --   "epwalsh/obsidian.nvim",
-  --   version = "*", -- recommended, use latest release instead of latest commit
-  --   -- lazy = true,
-  --   -- ft = "markdown",
-  --   -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-  --   -- event = {
-  --   --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-  --   --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-  --   --   "BufReadPre path/to/my-vault/**.md",
-  --   --   "BufNewFile path/to/my-vault/**.md",
-  --   -- },
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --   },
-  -- },
-  {
-    "nvimdev/guard.nvim",
-    dependencies = {
-      "nvimdev/guard-collection",
-    },
-  },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		---@module "ibl"
+		---@type ibl.config
+		opts = {},
+	},
 
-  {
-    "nvim-lualine/lualine.nvim",
-    requires = { "nvim-tree/nvim-web-devicons", opt = true },
-  },
+	{
+		"Zeioth/compiler.nvim",
+		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+		dependencies = { "stevearc/overseer.nvim" },
+		opts = {},
+	},
 
-  {
-    "folke/noice.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",       -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-    },
-  },
-
-  {   -- This plugin
-    "Zeioth/compiler.nvim",
-    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
-    dependencies = { "stevearc/overseer.nvim" },
-    opts = {},
-  },
-
-  {   -- The task runner we use
-    "stevearc/overseer.nvim",
-    commit = "400e762648b70397d0d315e5acaf0ff3597f2d8b",
-    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
-    opts = {
-      task_list = {
-        direction = "bottom",
-        min_height = 25,
-        max_height = 25,
-        default_detail = 1
-      },
-    },
-  },
+	{
+		"stevearc/overseer.nvim",
+		commit = "400e762648b70397d0d315e5acaf0ff3597f2d8b",
+		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+		opts = {
+			task_list = {
+				direction = "bottom",
+				min_height = 25,
+				max_height = 25,
+				default_detail = 1,
+			},
+		},
+	},
 })

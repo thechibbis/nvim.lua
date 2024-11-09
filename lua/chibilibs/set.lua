@@ -16,3 +16,5 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 vim.opt.colorcolumn = "120"
 vim.opt.conceallevel = 1
+
+vim.o.guifont = "FiraCode Nerd Font:h9"
