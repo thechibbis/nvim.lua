@@ -5,3 +5,10 @@ vim.keymap.set("n", "<leader>ps", function()
 	tbuiltin.grep_string({ search = vim.fn.input("Grep > ") })
 end)
 vim.keymap.set("n", "<leader>vh", tbuiltin.help_tags, {})
+
+require("telescope").setup({
+	defaults = {
+		file_ignore_patterns = {},
+		find_command = { "rg", "--files", "--hidden", "--follow", "--glob", "!.git" },
+	},
+})
